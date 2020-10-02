@@ -1,6 +1,50 @@
 import React from 'react'
 import Pokedex from './Pokedex'
 
+
+
+
+function getArry(PokeDefault) {
+    let test = [];
+    console.log(PokeDefault)
+
+    let i = 0;
+    while (i < PokeDefault.length / 2) {
+        const newNumber = Math.floor(Math.random() * PokeDefault.length)
+
+        if (test.length === undefined) {
+            test.push(PokeDefault[newNumber])
+            i++;
+        } else if (searchPokemon(PokeDefault[newNumber].id, test)) {
+            console.log("No pokemon found");
+            test.push(PokeDefault[newNumber])
+            i++;
+        }
+    }
+    return test;
+}
+
+function searchPokemon(pokeID, pokeArray) {
+    for (let i = 0; i < pokeArray.length; i++) {
+        if (pokeArray[i].id === pokeID) {
+            return false
+
+        }
+    }
+    return true;
+}
+
+function countScore(deck) {
+    let total;
+    for (let i = 0; i < deck.length; i++) {
+        console.log(deck[i].base_experience)
+        total = + deck[i].base_experience;
+    }
+    return total;
+}
+
+
+
 function Pokegame(props) {
     Pokedex.defaultProps = [
         { id: 4, name: "Charmander", type: "fire", base_experience: 62 },
@@ -13,9 +57,32 @@ function Pokegame(props) {
         { id: 133, name: "Eevee", type: "normal", base_experience: 65 },
     ];
 
+
+    const tim = getArry(Pokedex.defaultProps);
+    const eric = getArry(Pokedex.defaultProps);
+
+
+
+    const winner = () => {
+        const timScore = countScore(tim);
+        const ericScore = countScore(eric);
+        if (timScore > ericScore) {
+            return <div> Tim wins</div>
+
+        } else {
+            return <div>Eric wins</div>
+
+        }
+
+    }
+
+
+
     return (
         <div>
-            <Pokedex pokemons={Pokedex.defaultProps} />
+            <Pokedex pokemons={tim} />
+            {winner()}
+            <Pokedex pokemons={eric} />
         </div>
     )
 
